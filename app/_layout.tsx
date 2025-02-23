@@ -1,11 +1,23 @@
-import { View, Text } from 'react-native'
+import { Stack } from 'expo-router'
+import { QueryClient, QueryClientProvider, } from '@tanstack/react-query'
 import "@/global.css"
 
+// Create a client de tanstack/react-query
+const queryClient = new QueryClient()
+
 const RootLayout = () => {
+
   return (
-    <View>
-      <Text className="text-3xl font-bold mt-5 mx-4">-Root Layout-</Text>
-    </View>
+    <QueryClientProvider client={queryClient}>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: {
+            backgroundColor: '#FFF'
+          }
+        }}
+      />
+    </QueryClientProvider>
   )
 }
 
