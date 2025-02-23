@@ -22,7 +22,7 @@ const MainSlideshow = ({ movies }:Props) => {
         ref={carouselRef}
         data={ movies }
         width={200}
-        height={350}
+        height={300}
         renderItem={({ item })=>(
           <MoviePoster 
             id={ item.id }
@@ -33,7 +33,7 @@ const MainSlideshow = ({ movies }:Props) => {
         )}
         style={{
           width,
-          height: 350,
+          height: 290,
           justifyContent: 'center',
           alignItems: 'center'
         }}

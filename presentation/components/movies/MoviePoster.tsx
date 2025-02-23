@@ -3,12 +3,14 @@ import { Text, Pressable, Image } from 'react-native'
 
 const posterSizes = {
   small: {
-    width: 85,
-    height: 130,
+    width: 100,
+    height: 170,
+    classWidthText: 'w-[100px]',
   },
   large: {
     width: 150,
     height: 250,
+    classWidthText: 'w-[140px]',
   }
 }
 
@@ -33,7 +35,7 @@ const MoviePoster = ({ id, poster, title, size = 'small', className = '' }: Prop
           resizeMode: 'cover'
         }}
       />
-      <Text className="text-center font-bold w-[140px]">{title}</Text>
+      <Text className={`text-center font-bold ${ posterSizes[size].classWidthText }`}>{title}</Text>
     </Pressable>
   )
 }
