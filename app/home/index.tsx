@@ -7,9 +7,13 @@ import MovieHorizontalList from '@/presentation/components/movies/MovieHorizonta
 const HomeScreen = () => {
 
   const safeArea = useSafeAreaInsets()
-  const { nowPlatingQuery, popularQuery } = useMovies()
+  const { nowPlatingQuery, popularQuery, topRatedQuery } = useMovies()
 
-  if (nowPlatingQuery.isFetching || popularQuery.isFetching) {
+  if (
+      nowPlatingQuery.isFetching || 
+      popularQuery.isFetching ||
+      topRatedQuery.isFetching
+    ) {
     return (
       <View className="flex-1 justify-center items-center">
         <ActivityIndicator color={'blue'} size={42} />
@@ -30,6 +34,10 @@ const HomeScreen = () => {
       <Text className="text-2xl font-bold px-2 mb-2">Populares</Text>
       <MovieHorizontalList
         movies={ popularQuery.data ?? [] }
+      />
+      <Text className="text-2xl font-bold px-2 mb-2">Mejor calificadas</Text>
+      <MovieHorizontalList
+        movies={ topRatedQuery.data ?? [] }
       />
     </View>
   )
