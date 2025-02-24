@@ -1,4 +1,4 @@
-import { View, Text, FlatList } from 'react-native'
+import { View, FlatList } from 'react-native'
 import { Movie } from '@/infrastructure/interfaces/movie.interface'
 import MoviePoster from './MoviePoster'
 
@@ -7,7 +7,7 @@ interface Props {
 }
 const MovieHorizontalList = ({ movies }: Props) => {
   return (
-    <View>
+    <View className="mb-4">
       <FlatList
         horizontal
         data={movies}

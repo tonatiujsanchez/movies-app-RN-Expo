@@ -6,11 +6,13 @@ const posterSizes = {
     width: 100,
     height: 170,
     classWidthText: 'w-[100px]',
+    classTextSize: 'text-sm',
   },
   large: {
-    width: 150,
-    height: 250,
-    classWidthText: 'w-[140px]',
+    width: 210,
+    height: 320,
+    classWidthText: 'w-[210px]',
+    classTextSize: 'text-lg',
   }
 }
 
@@ -35,7 +37,7 @@ const MoviePoster = ({ id, poster, title, size = 'small', className = '' }: Prop
           resizeMode: 'cover'
         }}
       />
-      <Text className={`text-center font-bold ${ posterSizes[size].classWidthText }`}>{title}</Text>
+      <Text className={`text-center font-bold text-sm ${ posterSizes[size].classWidthText } ${ posterSizes[size].classTextSize }`}>{title}</Text>
     </Pressable>
   )
 }
