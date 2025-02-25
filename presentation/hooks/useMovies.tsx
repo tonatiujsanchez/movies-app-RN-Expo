@@ -22,7 +22,6 @@ export const useMovies = () => {
         initialPageParam: 1,
         queryKey: ['movies', 'top-rated'],
         queryFn: ({ pageParam }) => {
-            console.log({pageParam})
             return topRatedMoviesAction({ page: pageParam })
         },
         getNextPageParam: (_lastPage, pages) => pages.length,
