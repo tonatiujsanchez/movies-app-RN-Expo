@@ -1,6 +1,7 @@
-import { View, Text, ActivityIndicator, ScrollView } from 'react-native'
+import { View, Text, ScrollView } from 'react-native'
 import { Redirect, useLocalSearchParams } from 'expo-router'
 import { useMovie } from '@/presentation/hooks/useMovie'
+import MainLoadingIndicator from '@/presentation/components/ui/MainLoadingIndicator'
 
 type LocalSearchParams = {
   id: string
@@ -16,12 +17,7 @@ const MovieScreen = () => {
   const { movieDetailsQuery } = useMovie({ id })
 
   if (movieDetailsQuery.isLoading) {
-    return (
-      <View className="flex-1 justify-center items-center">
-        <ActivityIndicator color={'blue'} size={42} />
-        <Text className="mt-2">Cargando...</Text>
-      </View>
-    )
+    return <MainLoadingIndicator /> 
   }
 
   return (

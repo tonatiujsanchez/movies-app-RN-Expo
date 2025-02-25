@@ -1,8 +1,9 @@
+import { View, Text, ScrollView } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { View, Text, ActivityIndicator, ScrollView } from 'react-native'
 import { useMovies } from '@/presentation/hooks/useMovies'
 import MainSlideshow from '@/presentation/components/movies/MainSlideshow'
 import MovieHorizontalList from '@/presentation/components/movies/MovieHorizontalList'
+import MainLoadingIndicator from '@/presentation/components/ui/MainLoadingIndicator'
 
 const HomeScreen = () => {
 
@@ -10,11 +11,7 @@ const HomeScreen = () => {
   const { nowPlatingQuery, popularQuery, topRatedQuery, upcomingQuery } = useMovies()
 
   if (nowPlatingQuery.isFetching) {
-    return (
-      <View className="flex-1 justify-center items-center">
-        <ActivityIndicator color={'blue'} size={42} />
-      </View>
-    )
+    return <MainLoadingIndicator /> 
   }
 
   return (
