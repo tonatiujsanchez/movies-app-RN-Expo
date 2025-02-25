@@ -9,12 +9,7 @@ const HomeScreen = () => {
   const safeArea = useSafeAreaInsets()
   const { nowPlatingQuery, popularQuery, topRatedQuery, upcomingQuery } = useMovies()
 
-  if (
-      nowPlatingQuery.isFetching || 
-      popularQuery.isFetching ||
-      topRatedQuery.isFetching ||
-      upcomingQuery.isFetching
-    ) {
+  if (nowPlatingQuery.isFetching) {
     return (
       <View className="flex-1 justify-center items-center">
         <ActivityIndicator color={'blue'} size={42} />
