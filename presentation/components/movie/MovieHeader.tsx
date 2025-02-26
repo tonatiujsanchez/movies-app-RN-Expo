@@ -33,7 +33,7 @@ const MovieHeader = ({ title, originTitle, poster, backdrop, rating, duration }:
       <View
         className="shadow-xl shadow-black/20"
         style={{
-          height: screenHeight * 0.50
+          height: screenHeight * 0.70
         }}
       >
         <LinearGradient
@@ -62,7 +62,7 @@ const MovieHeader = ({ title, originTitle, poster, backdrop, rating, duration }:
       <BlurView
         intensity={100}
         tint="light"
-        className="-mt-44 p-4"
+        className="-mt-52 p-4"
         style={{
           width: '100%',
           height: 'auto',
@@ -71,12 +71,12 @@ const MovieHeader = ({ title, originTitle, poster, backdrop, rating, duration }:
           overflow: "hidden",
         }}>
         <View
-          className="rounded-tr-3xl rounded-tl- p-4 border-b border-zinc-400"
+          className="rounded-tr-3xl rounded-tl- p-4 pb-6 border-b border-zinc-400"
         >
           <Text className="font-bold text-3xl text-center">{title}</Text>
           <Text className="text-gray-700 text-center">{originTitle}</Text>
         </View>
-        <View className="flex-row justify-between py-5">
+        <View className="flex-row justify-between py-6">
           <View className="flex-row gap-3">
             <View className="flex-row items-center px-2 py-1 gap-1 rounded-full bg-zinc-300 border border-zinc-400">
               <Text className="font-bold text-zinc-900">{duration} min</Text>
