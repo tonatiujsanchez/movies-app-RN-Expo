@@ -4,6 +4,8 @@ import { useMovie } from '@/presentation/hooks/useMovie'
 import MainLoadingIndicator from '@/presentation/components/ui/MainLoadingIndicator'
 import MovieHeader from '@/presentation/components/movie/MovieHeader'
 import MovieDescription from '@/presentation/components/movie/MovieDescription'
+import { useCast } from '@/presentation/hooks/useCast'
+import MovieCast from '@/presentation/components/movie/MovieCast'
 
 type LocalSearchParams = {
   id: string
@@ -17,6 +19,7 @@ const MovieScreen = () => {
   }
 
   const { movieDetailsQuery } = useMovie({ id })
+  const { castQuery } = useCast({ movieId: id })
 
   if (movieDetailsQuery.isLoading) {
     return <MainLoadingIndicator />
@@ -27,8 +30,6 @@ const MovieScreen = () => {
   }
 
   const { title, originalTitle, backdrop, poster, rating, duration, description, budget } = movieDetailsQuery.data
-
-
 
   return (
     <ScrollView>
@@ -43,6 +44,9 @@ const MovieScreen = () => {
       <MovieDescription
         description={description}
         budget={budget}
+      />
+      <MovieCast
+        cast={ castQuery.data || [] }
       />
     </ScrollView>
   )
