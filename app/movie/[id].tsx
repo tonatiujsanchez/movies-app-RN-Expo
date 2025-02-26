@@ -1,7 +1,9 @@
-import { View, Text, ScrollView } from 'react-native'
+import { ScrollView } from 'react-native'
 import { Redirect, useLocalSearchParams } from 'expo-router'
 import { useMovie } from '@/presentation/hooks/useMovie'
 import MainLoadingIndicator from '@/presentation/components/ui/MainLoadingIndicator'
+import MovieHeader from '@/presentation/components/movie/MovieHeader'
+import MovieDescription from '@/presentation/components/movie/MovieDescription'
 
 type LocalSearchParams = {
   id: string
@@ -17,14 +19,31 @@ const MovieScreen = () => {
   const { movieDetailsQuery } = useMovie({ id })
 
   if (movieDetailsQuery.isLoading) {
-    return <MainLoadingIndicator /> 
+    return <MainLoadingIndicator />
   }
+
+  if (!movieDetailsQuery.data) {
+    return <Redirect href={'/home'} />
+  }
+
+  const { title, originalTitle, backdrop, poster, rating, duration, description, budget } = movieDetailsQuery.data
+
+
 
   return (
     <ScrollView>
-      <View>
-        <Text>{movieDetailsQuery.data?.title}</Text>
-      </View>
+      <MovieHeader
+        title={title}
+        originTitle={originalTitle}
+        poster={poster}
+        backdrop={backdrop}
+        rating={rating}
+        duration={duration}
+      />
+      <MovieDescription
+        description={description}
+        budget={budget}
+      />
     </ScrollView>
   )
 }
