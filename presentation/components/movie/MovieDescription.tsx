@@ -13,7 +13,7 @@ const MovieDescription = ({ description, budget }: Props) => {
         <Text className="font-bold text-2xl mb-1">Hisotria</Text>
         <Text className="text-lg text-gray-700">{description}</Text>
       </View>
-      <View className="mt-4">
+      <View className="mt-6">
         <Text className="font-bold text-2xl mb-1">Presupuesto</Text>
         <Text className="text-lg text-gray-700">{currencyFormatUSD(budget)}</Text>
       </View>
