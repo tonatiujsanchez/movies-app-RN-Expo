@@ -3,7 +3,7 @@ import { Redirect } from 'expo-router'
 import { Pressable, Text, useWindowDimensions } from 'react-native'
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view'
 import { useGenres } from '@/presentation/hooks/useGenres'
-import CategoryMoviesView from '@/presentation/components/movies/CategoryMoviesView'
+import GenreMoviesView from '@/presentation/components/movies/GenreMoviesView'
 import MainLoadingIndicator from '@/presentation/components/ui/MainLoadingIndicator'
 import { Genre } from '@/infrastructure/interfaces/moviedb-movie-response'
 import { RouteTabView } from '@/infrastructure/interfaces/route-tabview.interface'
@@ -42,7 +42,7 @@ const GenresScreen = () => {
   }
 
   const views = routes.reduce((obj: { [key: string]: React.ComponentType<unknown> }, route) => {
-    obj[route.key] = () => <CategoryMoviesView category={route.key} />
+    obj[route.key] = () => <GenreMoviesView genre={route} />
     return obj
   }, {})
 
