@@ -1,21 +1,45 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { Redirect } from 'expo-router'
 import { Pressable, Text, useWindowDimensions } from 'react-native'
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view'
+import { useGenres } from '@/presentation/hooks/useGenres'
 import CategoryMoviesView from '@/presentation/components/movies/CategoryMoviesView'
+import MainLoadingIndicator from '@/presentation/components/ui/MainLoadingIndicator'
+import { Genre } from '@/infrastructure/interfaces/moviedb-movie-response'
+import { RouteTabView } from '@/infrastructure/interfaces/route-tabview.interface'
+import { RouteTabViewMapper } from '@/infrastructure/mappers/route-tabview.mapper'
 
+const genresToRoutes = (genres: Genre[]): RouteTabView[] => {
+  return genres.map(RouteTabViewMapper.fromTheMovieDBGenreToRouteTabView)
+}
 
 const GenresScreen = () => {
 
   const layout = useWindowDimensions()
 
   const [index, setIndex] = useState(0)
+  const { genresQuery } = useGenres()
 
-  const [routes] = useState([
-    { key: "segunda", title: "Segunda" },
-    { key: "popular", title: "Populares" },
-    { key: "top_rated", title: "Mejor Valoradas" },
-    { key: "upcoming", title: "Próximamente" },
-  ])
+  const [routes, setRoutes] = useState<RouteTabView[]>([])
+
+  useEffect(() => {
+    if (genresQuery.data) {
+      setRoutes(genresToRoutes(genresQuery.data))
+    }
+  }, [genresQuery.data])
+
+
+  if (genresQuery.isLoading) {
+    return <MainLoadingIndicator />
+  }
+
+  if (!genresQuery.data) {
+    return <Redirect href='/(tabs)/home' />
+  }
+
+  if (routes.length === 0) {
+    return <MainLoadingIndicator />
+  }
 
   const views = routes.reduce((obj: { [key: string]: React.ComponentType<unknown> }, route) => {
     obj[route.key] = () => <CategoryMoviesView category={route.key} />
@@ -33,7 +57,8 @@ const GenresScreen = () => {
       renderScene={renderScene}
       onIndexChange={setIndex}
       initialLayout={{ width: layout.width }}
-      // swipeEnabled={false}
+      lazy
+      lazyPreloadDistance={0}
       style={{
         paddingVertical: 10,
         shadowOpacity: 0
@@ -53,18 +78,18 @@ const GenresScreen = () => {
             borderBottomColor: "rgba(0,0,0, 0.1)",
             marginBlockEnd: 10,
           }}
-          // tabStyle={{ width: 145 }}
+          tabStyle={{ width: 5.52 * routes.length }}
           renderTabBarItem={({ route }) => {
 
-            const activeIndex = routes.findIndex(r => r.key === route.key)
+            const isActiveIndex = routes.findIndex(r => r.key === route.key)
 
             return (
               <Pressable
                 key={route.key}
-                onPress={() => setIndex(activeIndex)}
+                onPress={() => setIndex(isActiveIndex)}
                 className="mx-1"
                 style={{
-                  backgroundColor: activeIndex === index ? "#ff6600" : "#FFF", // Color dinámico
+                  backgroundColor: isActiveIndex === index ? "#ff6600" : "#FFF",
                   paddingVertical: 8,
                   paddingHorizontal: 16,
                   borderRadius: 20,
@@ -74,7 +99,7 @@ const GenresScreen = () => {
                   borderColor: '#c7c7c7',
                 }}>
                 <Text style={{
-                  color: activeIndex === index ? "#fff" : "#222",
+                  color: isActiveIndex === index ? "#fff" : "#222",
                   fontWeight: "bold",
                   textTransform: "uppercase"
                 }}>
