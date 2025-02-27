@@ -4,7 +4,7 @@ import { TabView, SceneMap, TabBar } from 'react-native-tab-view'
 import CategoryMoviesView from '@/presentation/components/movies/CategoryMoviesView'
 
 
-const CategoriesScreen = () => {
+const GenresScreen = () => {
 
   const layout = useWindowDimensions()
 
@@ -89,4 +89,4 @@ const CategoriesScreen = () => {
   )
 }
 
-export default CategoriesScreen
+export default GenresScreen

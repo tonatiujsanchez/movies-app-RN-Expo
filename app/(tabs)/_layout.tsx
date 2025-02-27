@@ -20,9 +20,9 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="categories/index"
+        name="genres/index"
         options={{
-          title: 'Categorías',
+          title: 'Generos',
           tabBarIcon: ({ color }) => <Ionicons size={28} name="albums-outline" color={color} />,
         }}
       />
