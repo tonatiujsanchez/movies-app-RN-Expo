@@ -11,8 +11,9 @@ const HomeScreen = () => {
   const { nowPlatingQuery, popularQuery, topRatedQuery, upcomingQuery } = useMovies()
 
   if (nowPlatingQuery.isFetching) {
-    return <MainLoadingIndicator /> 
+    return <MainLoadingIndicator />
   }
+
 
   return (
     <ScrollView>
@@ -27,16 +28,16 @@ const HomeScreen = () => {
 
         <Text className="text-2xl font-bold px-2 mb-2">Populares</Text>
         <MovieHorizontalList
-          movies={ popularQuery.data ?? [] }
+          movies={popularQuery.data ?? []}
         />
         <Text className="text-2xl font-bold px-2 mb-2">Mejor calificadas</Text>
         <MovieHorizontalList
-          movies={ topRatedQuery.data?.pages.flat() ?? [] }
-          loadNextPage={ topRatedQuery.fetchNextPage }
+          movies={topRatedQuery.data?.pages.flat() ?? []}
+          loadNextPage={topRatedQuery.fetchNextPage}
         />
         <Text className="text-2xl font-bold px-2 mb-2">Proximamente</Text>
         <MovieHorizontalList
-          movies={ upcomingQuery.data ?? [] }
+          movies={upcomingQuery.data ?? []}
         />
       </View>
     </ScrollView>
