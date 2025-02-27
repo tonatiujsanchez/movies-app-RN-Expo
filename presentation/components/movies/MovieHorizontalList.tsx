@@ -1,7 +1,7 @@
-import { View, FlatList, NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
-import { Movie } from '@/infrastructure/interfaces/movie.interface'
-import MoviePoster from './MoviePoster'
 import { useEffect, useRef } from 'react'
+import { View, FlatList, NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
+import MoviePoster from '@/presentation/components/movies/MoviePoster'
+import { Movie } from '@/infrastructure/interfaces/movie.interface'
 
 interface Props {
   movies: Movie[]
