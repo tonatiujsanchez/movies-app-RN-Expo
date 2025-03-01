@@ -1,116 +1,44 @@
-import { useEffect, useState } from 'react'
-import { Redirect } from 'expo-router'
-import { Pressable, Text, useWindowDimensions } from 'react-native'
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view'
-import { useGenres } from '@/presentation/hooks/useGenres'
-import GenreMoviesView from '@/presentation/components/movies/GenreMoviesView'
-import MainLoadingIndicator from '@/presentation/components/ui/MainLoadingIndicator'
-import { Genre } from '@/infrastructure/interfaces/moviedb-movie-response'
-import { RouteTabView } from '@/infrastructure/interfaces/route-tabview.interface'
-import { RouteTabViewMapper } from '@/infrastructure/mappers/route-tabview.mapper'
+import { Redirect } from "expo-router"
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs"
+import { useGenres } from "@/presentation/hooks/useGenres"
+import MainLoadingIndicator from "@/presentation/components/ui/MainLoadingIndicator"
+import GenreMoviesView from "@/presentation/components/movies/GenreMoviesView"
+import CustomTabBar from "@/presentation/components/ui/CustomTabBar"
+import { RouteTabViewMapper } from "@/infrastructure/mappers/route-tabview.mapper"
+import { Genre } from "@/infrastructure/interfaces/moviedb-genres-response"
 
-const genresToRoutes = (genres: Genre[]): RouteTabView[] => {
-  return genres.map(RouteTabViewMapper.fromTheMovieDBGenreToRouteTabView)
-}
+const Tab = createMaterialTopTabNavigator()
+
 
 const GenresScreen = () => {
 
-  const layout = useWindowDimensions()
-
-  const [index, setIndex] = useState(0)
   const { genresQuery } = useGenres()
-
-  const [routes, setRoutes] = useState<RouteTabView[]>([])
-
-  useEffect(() => {
-    if (genresQuery.data) {
-      setRoutes(genresToRoutes(genresQuery.data))
-    }
-  }, [genresQuery.data])
-
 
   if (genresQuery.isLoading) {
     return <MainLoadingIndicator />
   }
 
   if (!genresQuery.data) {
-    return <Redirect href='/(tabs)/home' />
+    return <Redirect href="/(tabs)/home" />
   }
-
-  if (routes.length === 0) {
-    return <MainLoadingIndicator />
-  }
-
-  const views = routes.reduce((obj: { [key: string]: React.ComponentType<unknown> }, route) => {
-    obj[route.key] = () => <GenreMoviesView genre={route} />
-    return obj
-  }, {})
-
-  const renderScene = SceneMap({
-    ...views,
-  })
-
 
   return (
-    <TabView
-      navigationState={{ index, routes }}
-      renderScene={renderScene}
-      onIndexChange={setIndex}
-      initialLayout={{ width: layout.width }}
-      lazy
-      lazyPreloadDistance={0}
-      style={{
-        paddingVertical: 10,
-        shadowOpacity: 0
+    <Tab.Navigator
+      tabBar={(props) => <CustomTabBar {...props} />}
+      screenOptions={{
+        lazy: true,
       }}
-      renderTabBar={props => (
-        <TabBar
-          {...props}
-          scrollEnabled={true}
-          indicatorStyle={{ backgroundColor: "none" }}
-          indicatorContainerStyle={{ boxShadow: 'none' }}
-          style={{
-            backgroundColor: "#FFF",
-            paddingVertical: 10,
-            elevation: 0,
-            shadowOpacity: 0,
-            borderBottomWidth: 1,
-            borderBottomColor: "rgba(0,0,0, 0.1)",
-            marginBlockEnd: 10,
-          }}
-          tabStyle={{ width: 5.52 * routes.length }}
-          renderTabBarItem={({ route }) => {
-
-            const isActiveIndex = routes.findIndex(r => r.key === route.key)
-
-            return (
-              <Pressable
-                key={route.key}
-                onPress={() => setIndex(isActiveIndex)}
-                className="mx-1"
-                style={{
-                  backgroundColor: isActiveIndex === index ? "#ff6600" : "#FFF",
-                  paddingVertical: 8,
-                  paddingHorizontal: 16,
-                  borderRadius: 20,
-                  marginHorizontal: 5,
-                  borderWidth: 1,
-                  borderStyle: 'solid',
-                  borderColor: '#c7c7c7',
-                }}>
-                <Text style={{
-                  color: isActiveIndex === index ? "#fff" : "#222",
-                  fontWeight: "bold",
-                  textTransform: "uppercase"
-                }}>
-                  {route.title}
-                </Text>
-              </Pressable>
-            )
-          }}
-        />
-      )}
-    />
+    >
+      {genresQuery.data.map((genre: Genre) => (
+        <Tab.Screen key={genre.id} name={genre.name}>
+          {() => (
+            <GenreMoviesView
+              genre={RouteTabViewMapper.fromTheMovieDBGenreToRouteTabView(genre)}
+            />
+          )}
+        </Tab.Screen>
+      ))}
+    </Tab.Navigator>
   )
 }
 
