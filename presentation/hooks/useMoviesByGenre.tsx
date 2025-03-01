@@ -17,6 +17,8 @@ export const useMoviesByGenre = ({ genreId }:Options) => {
     },
     getNextPageParam: (_lastPage, pages) => pages.length,
     staleTime: 1000 * 60 * 60 * 24,
+    enabled: !!genreId,
+    placeholderData: (previousData) => previousData,
   })
 
   return {
