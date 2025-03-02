@@ -11,8 +11,9 @@ interface Props {
   backdrop?: string
   rating: number
   duration: number
+  onAddMovieToFavorites: () => void
 }
-const MovieHeader = ({ title, originTitle, poster, backdrop, rating, duration }: Props) => {
+const MovieHeader = ({ title, originTitle, poster, backdrop, rating, duration, onAddMovieToFavorites }: Props) => {
 
   const { height: screenHeight } = useWindowDimensions()
 
@@ -101,7 +102,7 @@ const MovieHeader = ({ title, originTitle, poster, backdrop, rating, duration }:
               />
             </Pressable>
             <Pressable
-              onPress={() => router.back()}
+              onPress={onAddMovieToFavorites}
               className="ml-3"
             >
               <Ionicons

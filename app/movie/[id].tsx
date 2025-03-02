@@ -6,6 +6,7 @@ import MovieHeader from '@/presentation/components/movie/MovieHeader'
 import MovieDescription from '@/presentation/components/movie/MovieDescription'
 import { useCast } from '@/presentation/hooks/useCast'
 import MovieCast from '@/presentation/components/movie/MovieCast'
+import { useFavoriteMovies } from '@/presentation/hooks/useFavoriteMovies'
 
 type LocalSearchParams = {
   id: string
@@ -13,6 +14,8 @@ type LocalSearchParams = {
 const MovieScreen = () => {
 
   const { id } = useLocalSearchParams<LocalSearchParams>()
+  const { addMovieToFavorites } = useFavoriteMovies()
+
 
   if (!id) {
     return <Redirect href={'/home'} />
@@ -31,6 +34,10 @@ const MovieScreen = () => {
 
   const { title, originalTitle, backdrop, poster, rating, duration, description, budget } = movieDetailsQuery.data
 
+  const handleAddMovieToFavorites = () => {
+    addMovieToFavorites(movieDetailsQuery.data)
+  }
+
   return (
     <ScrollView>
       <MovieHeader
@@ -40,13 +47,14 @@ const MovieScreen = () => {
         backdrop={backdrop}
         rating={rating}
         duration={duration}
+        onAddMovieToFavorites={handleAddMovieToFavorites}
       />
       <MovieDescription
         description={description}
         budget={budget}
       />
       <MovieCast
-        cast={ castQuery.data || [] }
+        cast={castQuery.data || []}
       />
     </ScrollView>
   )
