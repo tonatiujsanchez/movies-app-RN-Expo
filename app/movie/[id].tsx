@@ -7,15 +7,23 @@ import MovieDescription from '@/presentation/components/movie/MovieDescription'
 import { useCast } from '@/presentation/hooks/useCast'
 import MovieCast from '@/presentation/components/movie/MovieCast'
 import { useFavoriteMovies } from '@/presentation/hooks/useFavoriteMovies'
+import { useEffect, useState } from 'react'
 
 type LocalSearchParams = {
   id: string
 }
 const MovieScreen = () => {
 
-  const { id } = useLocalSearchParams<LocalSearchParams>()
-  const { addMovieToFavorites } = useFavoriteMovies()
+  const [isFavorite, setIsFavorite] = useState(false)
 
+  const { id } = useLocalSearchParams<LocalSearchParams>()
+  const { addMovieToFavorites, favoriteMovies } = useFavoriteMovies()
+
+  useEffect(() => {
+    if (id) {
+      setIsFavorite(favoriteMovies.some(movie => `${movie.id}` === id))
+    }
+  }, [id, favoriteMovies])
 
   if (!id) {
     return <Redirect href={'/home'} />
@@ -48,6 +56,7 @@ const MovieScreen = () => {
         rating={rating}
         duration={duration}
         onAddMovieToFavorites={handleAddMovieToFavorites}
+        isFavorite={isFavorite}
       />
       <MovieDescription
         description={description}
