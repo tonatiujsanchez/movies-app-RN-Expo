@@ -1,6 +1,6 @@
 import { Text, View } from "react-native"
 import { useFavoriteMovies } from "@/presentation/hooks/useFavoriteMovies"
-import MovieGrid from "@/presentation/components/movies/MovieGrid"
+import MovieGridTwoColumn from "@/presentation/components/movies/MovieGridTwoColumn"
 
 const FavoritesScreen = () => {
 
@@ -10,7 +10,7 @@ const FavoritesScreen = () => {
     <View>
       <Text>Favorites</Text>
       <View className="mt-4">
-        <MovieGrid
+        <MovieGridTwoColumn
           movies={favoriteMovies}
         />
       </View>
