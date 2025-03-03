@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useState } from "react"
 import { getStorageData, setStoreData } from "@/config/libs/async-storage"
 import { Movie } from "@/infrastructure/interfaces/movie.interface"
 import { useFocusEffect } from "@react-navigation/native"
@@ -11,20 +11,23 @@ export const useFavoriteMovies = () => {
 
   useFocusEffect(
     useCallback(() => {
-      getFavoriteMovies(); // Se ejecuta cada vez que la pantalla es enfocada
+      getFavoriteMovies()
     }, [])
-  );
+  )
+
   const addMovieToFavorites = async (movie: Movie) => {
-    const existeMovie = favoriteMovies.some( m => m.id === movie.id )
+    const existeMovie = favoriteMovies.some(m => m.id === movie.id)
     let moviesUpdated = []
-    if(existeMovie){
-      moviesUpdated = favoriteMovies.filter( m=> m.id !== movie.id )
-    }else {
+
+    if (existeMovie) {
+      moviesUpdated = favoriteMovies.filter(m => m.id !== movie.id)
+    } else {
       moviesUpdated = [...favoriteMovies, movie]
     }
+
     try {
       await setStoreData(FAVORITE_MOVIES_STORAGE_KEY, JSON.stringify(moviesUpdated))
-
+      setFavoriteMovies(moviesUpdated)
     } catch (error) {
       console.log(error)
     }
@@ -34,7 +37,7 @@ export const useFavoriteMovies = () => {
 
     try {
       const moviesStorage = await getStorageData(FAVORITE_MOVIES_STORAGE_KEY)
-      const parsedMovies = moviesStorage && moviesStorage !== '' ? JSON.parse(moviesStorage) : [];
+      const parsedMovies = moviesStorage && moviesStorage !== '' ? JSON.parse(moviesStorage) : []
 
       setFavoriteMovies(parsedMovies)
 
@@ -43,6 +46,8 @@ export const useFavoriteMovies = () => {
       return []
     }
   }
+
+  
 
   return {
     favoriteMovies,

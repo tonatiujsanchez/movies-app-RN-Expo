@@ -12,8 +12,9 @@ interface Props {
   rating: number
   duration: number
   onAddMovieToFavorites: () => void
+  isFavorite: boolean
 }
-const MovieHeader = ({ title, originTitle, poster, backdrop, rating, duration, onAddMovieToFavorites }: Props) => {
+const MovieHeader = ({ title, originTitle, poster, rating, duration, onAddMovieToFavorites, isFavorite }: Props) => {
 
   const { height: screenHeight } = useWindowDimensions()
 
@@ -106,7 +107,7 @@ const MovieHeader = ({ title, originTitle, poster, backdrop, rating, duration, o
               className="ml-3"
             >
               <Ionicons
-                name="heart-outline"
+                name={isFavorite ? 'heart-sharp' : 'heart-outline'}
                 size={28}
               />
             </Pressable>
